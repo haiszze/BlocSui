@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import  { ButtonModule } from 'primeng/button';
 import { AfterViewInit, Component, inject, input, signal, OnInit } from '@angular/core';
 import * as Prism from 'prismjs';
@@ -19,6 +19,7 @@ export class CodeViewer implements OnInit, AfterViewInit {
   code = signal('');
 
   private readonly http = inject(HttpClient);
+  private readonly document = inject(DOCUMENT);
 
   ngOnInit(): void {
     const name = this.componentName().trim();
@@ -46,13 +47,12 @@ export class CodeViewer implements OnInit, AfterViewInit {
   }
 
   private loadCode(componentName: string): void {
-    let url = '';
-    
-    if (componentName === 'platform') {
-      url = `/prime-pt/platform.util.ts`;
-    } else {
-      url = `/prime-pt/${componentName}.pt.ts`;
-    }
+    const assetPath =
+      componentName === 'platform'
+        ? 'prime-pt/platform.util.ts'
+        : `prime-pt/${componentName}.pt.ts`;
+
+    const url = new URL(assetPath, this.document.baseURI).toString();
 
     this.http.get(url, { responseType: 'text' }).subscribe({
       next: (fileContent) => {
