@@ -1,32 +1,5 @@
-<div class="flex h-screen max-w-7xl mx-auto bg-gray-100">
-  <!-- Sidebar -->
-  <div class="flex flex-col w-65 bg-white">
-    <!-- Logo/Brand -->
-    <div class="flex justify-center items-center gap-2 py-4">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-        class="lucide lucide-code-xml h-6 w-6 text-graY-600" aria-hidden="true">
-        <path d="m18 16 4-4-4-4"></path>
-        <path d="m6 8-4 4 4 4"></path>
-        <path d="m14.5 4-5 16"></path>
-      </svg>
-      <h1 class="text-xl text-gray-600 font-semibold">CodeThrough</h1>
+<div class="layout-fade-in flex flex-col md:flex-row min-h-screen md:h-screen max-w-5xl mx-auto bg-gray-100 overflow-hidden">
+    <div class="flex-1 overflow-hidden py-5 px-3 md:py-10 bg-white">
+        <router-outlet></router-outlet>
     </div>
-
-    <!-- Navigation -->
-    <p-panel-menu [model]="navItems" [pt]="{
-      root:'border-0! gap-0!',
-      panel:'border-0! p-0!',
-      submenuIcon:'order-1 ml-auto text-black!',
-      headerLink:'hover:bg-gray-200 text-black! rounded-lg!',
-      headerIcon:'text-black!',
-      itemIcon:'text-black!',
-      itemLink:'hover:bg-gray-200 text-black! rounded-lg!'
-    }" [multiple]="true"></p-panel-menu>
-  </div>
-
-  <!-- Main Content Area -->
-  <div class="flex-1 overflow-y-auto p-4 bg-white">
-    <router-outlet></router-outlet>
-  </div>
 </div>

@@ -1,0 +1,17 @@
+.copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+pre[class*="language-"] {
+  border: #d1d0d0 solid 1px;
+  background: #fff;
+  font-size: 12px;
+  padding: 20px; 
+  border-radius: 10px;
+  max-width: 100%;
+  margin: 0;
+  overflow-x: auto;
+}

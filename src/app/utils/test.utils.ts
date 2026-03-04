@@ -1,28 +1,11 @@
-import { Component, signal } from '@angular/core';
-import { SelectModule } from 'primeng/select';
-import { TagModule } from 'primeng/tag';
-import { DialogModule } from 'primeng/dialog';
-import { SelectDialogComponent } from "../../shared/components/modal/select-dialog/select-dialog";
-import { StatsCardComponent } from '../../features/dashboard/components/stats-card/stats-card';
-
-@Component({
-  selector: 'app-select',
-  imports: [SelectModule, TagModule, DialogModule, SelectDialogComponent, StatsCardComponent],
-  templateUrl: './select.html',
-})
-export class Select {
-
-  visible = signal(false);
-
-  textSample = [
+  export const textSample = [
     { name: 'First Sample Long Text That Exceeds Width of the Parent Container' },
     { name: 'Second Sample Long Text That Exceeds Width of the Parent Container' },
     { name: 'Third Sample Long Text That Exceeds Width of the Parent Container' },
     { name: 'Fourth Sample Long Text That Exceeds Width of the Parent Container' },
-
   ];
 
-  yourOptions = [
+  export const textOption = [
     { label: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae justo sed massa cursus facilisis. Ut id lacinia felis. Nulla eget nibh dictum, dignissim mauris quis, efficitur urna.', value: '1' },
     { label: 'Suspendisse varius velit vitae lacus ultricies, sed maximus nunc dictum. Duis vehicula arcu sed mi tincidunt, vitae facilisis lacus aliquet.', value: '2' },
     { label: 'Praesent egestas metus vel justo fermentum, non tempus libero malesuada. Cras sed tortor porttitor, vehicula enim at, viverra eros.', value: '3' },
@@ -54,18 +37,3 @@ export class Select {
     { label: 'Mauris ut magna eu odio auctor placerat. Integer vel sapien tincidunt, suscipit mauris non, lacinia lacus.', value: '29' },
     { label: 'Curabitur id ligula sed arcu laoreet volutpat. Sed egestas sapien in nibh cursus placerat.', value: '30' }
   ];
-
-  readonly code = `<p-select 
-  [options]="textSample()" 
-  optionLabel="name" 
-  placeholder="Select Option" 
-  class="w-full"
-  [pt]="{
-      pcOverlay: {
-        root: 'w-full!'
-      },
-      optionLabel:'break-words! whitespace-normal! w-full!'
-  }">
-  </p-select>`;
-
-}

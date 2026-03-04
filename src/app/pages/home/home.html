@@ -1,97 +1,24 @@
-<div class="flex flex-col gap-6">
-  <!-- Hero Section -->
-  <div class="flex flex-col gap-6 py-14">
-    <div class="flex flex-col gap-4">
-      <h1 class="text-4xl font-bold text-black tracking-tight">
-        PrimeNG for Mobile
-      </h1>
-      <p class="text-lg text-gray-700 leading-relaxed max-w-4xl">
-        A comprehensive guide for adapting PrimeNG components for mobile
-        applications using Angular. Learn how to optimize components for mobile
-        use, customize them to fit mobile design principles, and implement
-        adaptive patterns. Includes best practices for testing on real devices,
-        handling platform-specific behaviors, and enhancing user experience with
-        mobile-ready design.
-      </p>
-    </div>
-
-    <div class="flex flex-wrap gap-2">
-      <span
-        class="inline-flex items-center gap-2 px-4 py-2 bg-black text-white text-sm font-medium rounded-lg"
-      >
-        <i class="pi pi-code text-xs"></i>
-        Angular Framework
-      </span>
-
-      <span
-        class="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg"
-      >
-        <i class="pi pi-palette text-xs"></i>
-        PrimeNG UI Library
-      </span>
-    </div>
-    <p-select
-      [options]="yourOptions"
-      [filter]="true"
-      [pt]="selectPt"
-    ></p-select>
-
-    <p-multiselect
-      [options]="yourOptions"
-      [filter]="true"
-      [pt]="multiSelectPt"
-    ></p-multiselect>
-
-    <p-button
-      [pt]="buttonPt"
-      label="Click Me!"
-      styleClass="btn-icon-size btn-rounded"
-      icon="pi pi-plus"
-    ></p-button>
-
-    <p-datepicker
-      placeholder="Date Range Filter"
-      selectionMode="range"
-      [showIcon]="true"
-      dateFormat="yy-mm-dd"
-      [numberOfMonths]="2"
-      [showButtonBar]="true"
-    >
-      <ng-template #header let-options="options">
-        <div
-          class="col-span-3 border-r border-gray-300 flex flex-col gap-3 items-center"
-        >
-          <div class="grid grid-cols-2 gap-2">
-            <p-button>Button 1</p-button>
-            <p-button>Button 2</p-button>
-            <p-button>Button 3</p-button>
-            <p-button>Button 4</p-button>
-            <p-button>Button 5</p-button>
-          </div>
+<div class="flex flex-col gap-4 sm:gap-6 min-h-dvh px-4 mx-auto max-w-7xl">
+    <!-- Hero Section -->
+    <div class="flex flex-col gap-4 sm:gap-6">
+        <!-- Header Content -->
+        <div class="flex flex-col gap-3 sm:gap-4">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-600 tracking-tight">PrimeNG for Mobile</h1>
+            <p class="text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed max-w-4xl font-light">
+                A comprehensive guide for adapting PrimeNG components for mobile applications using Angular.
+                Learn how to optimize components for mobile use, customize them to fit mobile design principles,
+                and implement adaptive patterns. Includes best practices for testing on real devices,
+                handling platform-specific behaviors, and enhancing user experience with mobile-ready design.
+            </p>
         </div>
-      </ng-template>
 
-      <ng-template
-        #buttonbar
-        let-todayCallback="todayCallback"
-        let-clearCallback="clearCallback"
-      >
-        <div class="flex justify-between w-full">
-          <div class="flex gap-2">
-            <p-button size="small" label="Exact" severity="secondary" />
-            <p-button size="small" label="Flexible" severity="secondary" />
-          </div>
-          <div class="flex gap-2">
-            <p-button
-              size="small"
-              icon="pi pi-times"
-              severity="danger"
-              variant="text"
-              (click)="clearCallback($event)"
-            />
-          </div>
+        <!-- Components Grid -->
+        <div class="flex flex-col gap-4 md:flex-wrap md:flex-row w-full">
+            @for (item of componentTitles; track $index) {
+                <div class="flex-1 min-h-[20vdh] min-w-[calc(50%-0.75rem)] sm:min-w-[calc(50%-0.75rem)] transform transition-all duration-300 ease-out hover:scale-105 hover:-translate-y-1">
+                    <app-stats-card (emitVisible)="true" [title]="item.title" [subtitle]="item.subtitle" [description]="item.description" [componentType]="item.componentType" [path]="item.path" />
+                </div>
+            }
         </div>
-      </ng-template>
-    </p-datepicker>
-  </div>
+    </div>
 </div>
