@@ -8,14 +8,14 @@ interface TextSample {
 }
 
 @Component({
-    selector: 'app-select-dialog',
-    standalone: true,
-    imports: [DialogModule, SelectModule, TagModule],
-    templateUrl: './select-dialog.html',
+  selector: 'app-dialog',
+  standalone: true,
+  imports: [DialogModule, SelectModule, TagModule],
+  templateUrl: './dialog.html',
 })
 export class SelectDialogComponent {
-    visible = model<boolean>(false);
+  visible = model<boolean>(false);
 
-    textSample = input<TextSample[]>([]); 
-    code = input<string>('');
+  textSample = input<TextSample[]>([]); 
+  code = input<string>('');
 }

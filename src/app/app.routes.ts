@@ -13,10 +13,6 @@ export const routes: Routes = [
 			{
 				path: 'home',
 				loadComponent: () => import('./pages/home/home').then(m => m.Home),
-			},
-			{
-				path:'select',
-				loadComponent: () => import('./pages/select/select').then(m => m.Select),
 			}
 		]
 	}

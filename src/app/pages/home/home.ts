@@ -1,54 +1,17 @@
-import { Component } from '@angular/core';
-import { SelectModule } from 'primeng/select';
-import { Select } from 'primeng/select';
-import { MultiSelect } from "primeng/multiselect";
-import { SelectPt } from '../../lib/prime-pt/select.pt';
-import { MultiSelectPt } from '../../lib/prime-pt/multiselect.pt';
-import { ButtonModule } from "primeng/button";
-import { ButtonPt } from '../../lib/prime-pt/button.pt';
-import { DatePickerModule } from 'primeng/datepicker';
+import { Component, signal } from '@angular/core';
+import { ButtonModule } from 'primeng/button';
+import { StatsCardComponent } from "../../shared/stats/stats-card";
+import { componentTitles } from '../../utils/props.util';
+
+
 @Component({
   selector: 'app-home',
-  imports: [SelectModule, Select, MultiSelect, ButtonModule, DatePickerModule],
+  standalone: true,
+  imports: [ButtonModule, StatsCardComponent],
   templateUrl: './home.html',
 })
 export class Home {
+  visible = signal(false);
 
-  selectPt = SelectPt;
-  multiSelectPt = MultiSelectPt;
-  buttonPt = ButtonPt;
-
-  yourOptions = [
-    { label: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae justo sed massa cursus facilisis. Ut id lacinia felis. Nulla eget nibh dictum, dignissim mauris quis, efficitur urna.', value: '1' },
-    { label: 'Suspendisse varius velit vitae lacus ultricies, sed maximus nunc dictum. Duis vehicula arcu sed mi tincidunt, vitae facilisis lacus aliquet.', value: '2' },
-    { label: 'Praesent egestas metus vel justo fermentum, non tempus libero malesuada. Cras sed tortor porttitor, vehicula enim at, viverra eros.', value: '3' },
-    { label: 'Mauris volutpat nisi a eros hendrerit, non consequat urna congue. Vivamus ullamcorper sodales nisi, vitae rhoncus ipsum iaculis ac.', value: '4' },
-    { label: 'Sed vitae diam non orci feugiat ultricies vitae vitae nunc. Nunc fringilla justo a purus pharetra, eget suscipit tortor euismod.', value: '5' },
-    { label: 'Vestibulum ut nulla dignissim, condimentum mi non, aliquet ex. Phasellus facilisis neque nisl, sed rhoncus justo laoreet non.', value: '6' },
-    { label: 'Aliquam erat volutpat. Donec condimentum, lorem in pellentesque vulputate, lorem libero maximus enim, in dictum metus est in nibh.', value: '7' },
-    { label: 'Integer pretium massa non erat sagittis, ut laoreet tellus fringilla. Sed pulvinar velit id ex eleifend, ac cursus turpis semper.', value: '8' },
-    { label: 'Pellentesque vulputate lorem et lacus hendrerit, id fringilla nibh pulvinar. Nulla quis dui id nibh aliquet vehicula.', value: '9' },
-    { label: 'Donec condimentum metus sed magna finibus, quis rutrum libero cursus. Aliquam suscipit dolor id nulla fermentum tristique.', value: '10' },
-    { label: 'Cras dictum turpis sed arcu viverra, non varius sem bibendum. Maecenas tincidunt neque id dui luctus, ut egestas nisl dictum.', value: '11' },
-    { label: 'Morbi a massa a erat posuere sodales. Integer malesuada orci eget congue semper. Nulla sed risus sit amet ante tempor posuere.', value: '12' },
-    { label: 'Etiam ut ligula sed magna malesuada tristique non id lorem. Integer id urna non neque imperdiet tempor.', value: '13' },
-    { label: 'Vivamus egestas lacus nec risus cursus, vel aliquet ligula suscipit. Aenean tristique justo neque, sed fermentum nibh volutpat vel.', value: '14' },
-    { label: 'Proin accumsan justo magna, vitae pulvinar urna gravida nec. Aenean ultricies nisl ac dui euismod suscipit.', value: '15' },
-    { label: 'Curabitur ac lorem id velit pulvinar tempus. Praesent ac justo vitae dui posuere tristique vitae vitae leo.', value: '16' },
-    { label: 'Nam hendrerit risus nec vehicula suscipit. Fusce laoreet dolor vel mi mattis, vel varius felis accumsan.', value: '17' },
-    { label: 'Sed luctus velit vitae sem maximus porttitor. Vestibulum vel turpis sodales, vulputate orci a, commodo lacus.', value: '18' },
-    { label: 'Nunc quis lectus a ligula iaculis ullamcorper. Proin vel ipsum ligula. Cras nibh sapien, porttitor id dolor sed, porta egestas massa.', value: '19' },
-    { label: 'Integer dignissim metus vel tempor sodales. Fusce ac massa ac risus iaculis convallis vitae nec lorem.', value: '20' },
-    { label: 'Ut pellentesque tellus id arcu viverra, vel elementum augue volutpat. Curabitur vitae dui vitae lacus vestibulum condimentum.', value: '21' },
-    { label: 'Phasellus nec enim volutpat, pulvinar nibh eget, ultricies justo. Mauris non dictum dolor, in dictum odio.', value: '22' },
-    { label: 'Duis porttitor velit eu risus tincidunt, id scelerisque mauris sagittis. Sed efficitur varius metus in blandit.', value: '23' },
-    { label: 'Aliquam porttitor urna in ligula pretium, consequat bibendum lacus sagittis. Phasellus a lectus nec magna tempor molestie.', value: '24' },
-    { label: 'Morbi laoreet velit id mauris ultricies, non egestas risus vestibulum. Donec ut nisi sapien.', value: '25' },
-    { label: 'Nullam dictum ipsum sed arcu rutrum, et pretium orci gravida. Donec in tincidunt risus.', value: '26' },
-    { label: 'Vestibulum vel arcu eu augue interdum vestibulum. Mauris aliquam mi at justo mattis, a commodo risus egestas.', value: '27' },
-    { label: 'Suspendisse bibendum magna eget ligula facilisis, at suscipit magna accumsan. Integer tincidunt libero urna.', value: '28' },
-    { label: 'Mauris ut magna eu odio auctor placerat. Integer vel sapien tincidunt, suscipit mauris non, lacinia lacus.', value: '29' },
-    { label: 'Curabitur id ligula sed arcu laoreet volutpat. Sed egestas sapien in nibh cursus placerat.', value: '30' }
-  ];
-
+  componentTitles = componentTitles;
 }
