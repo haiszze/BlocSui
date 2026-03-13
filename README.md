@@ -1,4 +1,4 @@
-# Primary Flex Project
+# BlocSui Project
 
 A modular Angular project optimized for mobile, featuring custom Primeng integrations and a scalable architecture.
 
