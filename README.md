@@ -3,7 +3,7 @@
 A modular Angular project optimized for mobile, featuring custom Primeng integrations and a scalable architecture.
 
 ## Features
-- **Adaptive Select and MultiSelect**: PrimeNG pass-through recipes (`public/prime-pt/*.pt.ts`) that keep a dropdown on desktop and switch to a bottom sheet with a sticky Cancel row on mobile.
+- **Adaptive Select and MultiSelect**: PrimeNG pass-through recipes by @Haissze (`public/prime-pt/*.pt.ts`) that keep a dropdown on desktop and switch to a bottom sheet with a sticky Cancel row on mobile.
 - **Live preview**: each component page shows PrimeNG's default next to the BlocSui version, with a Desktop/Mobile switch powered by `PlatformUtil.simulateMobile()`.
 - **Resize demo**: the home page has a draggable viewport that shows the dropdown turning into a bottom sheet below 640px.
 - **Source viewer**: syntax-highlighted source with line numbers, copy, download, and collapse for long files.
