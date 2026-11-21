@@ -1,0 +1,145 @@
+@let d = doc();
+
+<div class="mx-auto max-w-6xl px-4 pb-24 sm:px-6">
+  <!-- Header: lead-anchored, generous, one idea -->
+  <header class="rise flex flex-col gap-5 pb-12 pt-10 sm:pt-16">
+    <a routerLink="/home" class="flex w-fit items-center gap-1.5 text-sm text-ink-faint transition-colors hover:text-ink">
+      <i class="pi pi-arrow-left text-[11px]" aria-hidden="true"></i>
+      All components
+    </a>
+    <h1 class="max-w-3xl font-display text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">
+      {{ d.title }}
+      <span class="block text-ink-faint">{{ d.tagline }}</span>
+    </h1>
+    <p class="max-w-2xl text-base leading-relaxed text-ink-soft sm:text-lg">
+      {{ d.description }} Every branch is decided by
+      <button
+        type="button"
+        (click)="platformDialog.set(true)"
+        class="rounded font-mono text-[0.92em] text-accent underline decoration-accent/40 underline-offset-4 transition-colors hover:decoration-accent"
+      >PlatformUtil.mobile()</button>.
+    </p>
+    <ul class="flex flex-wrap gap-2" aria-label="Features">
+      @for (tag of d.tags; track tag) {
+        <li class="rounded-full border border-line px-3 py-1 text-xs text-ink-soft">{{ tag }}</li>
+      }
+    </ul>
+  </header>
+
+  <!-- Mobile section index: horizontal chips -->
+  <nav class="sticky top-14 z-30 -mx-4 mb-8 border-y border-line bg-canvas/90 px-4 py-2 backdrop-blur-md lg:hidden" aria-label="On this page">
+    <ul class="flex gap-1.5 overflow-x-auto [scrollbar-width:none]">
+      @for (item of toc(); track item.id) {
+        <li class="shrink-0">
+          <button
+            type="button"
+            (click)="scrollTo(item.id)"
+            class="rounded-full px-3 py-1 text-xs transition-colors"
+            [class.font-mono]="item.mono"
+            [class]="active() === item.id ? 'bg-ink text-canvas' : 'text-ink-soft hover:text-ink'"
+          >{{ item.label }}</button>
+        </li>
+      }
+    </ul>
+  </nav>
+
+  <div class="grid gap-12 lg:grid-cols-[180px_minmax(0,1fr)] lg:gap-16">
+    <!-- Desktop section index -->
+    <nav class="hidden lg:block" aria-label="On this page">
+      <div class="sticky top-24 flex flex-col gap-1">
+        <p class="mb-2 text-xs font-medium text-ink-faint">On this page</p>
+        @for (item of toc(); track item.id) {
+          <button
+            type="button"
+            (click)="scrollTo(item.id)"
+            [attr.aria-current]="active() === item.id ? 'true' : null"
+            class="relative py-1 pl-3 text-left text-[13px] transition-colors before:absolute before:inset-y-1 before:left-0 before:w-px before:transition-colors"
+            [class.font-mono]="item.mono"
+            [class]="active() === item.id ? 'text-ink before:bg-accent' : 'text-ink-faint before:bg-line hover:text-ink'"
+          >{{ item.label }}</button>
+        }
+      </div>
+    </nav>
+
+    <div class="flex min-w-0 flex-col gap-20">
+      <!-- Live preview -->
+      <section id="preview" data-toc-section class="flex flex-col gap-5">
+        <h2 class="font-display text-2xl font-semibold tracking-tight text-ink">Try it</h2>
+        <app-live-preview [kind]="d.slug" />
+      </section>
+
+      <!-- Pass-through keys: a ruled reference list, not a wall of cards -->
+      <section class="flex flex-col gap-2" aria-labelledby="keys-heading">
+        <div class="flex flex-col gap-2 pb-4">
+          <h2 id="keys-heading" class="font-display text-2xl font-semibold tracking-tight text-ink">Pass-through keys</h2>
+          <p class="max-w-2xl text-sm leading-relaxed text-ink-soft">
+            What each key in <span class="font-mono text-ink">{{ d.ptFile }}</span> changes, and how it branches.
+          </p>
+        </div>
+
+        <ol class="divide-y divide-line border-y border-line">
+          @for (k of d.keys; track k.key) {
+            <li [id]="keyId(k)" data-toc-section class="grid gap-3 py-7 md:grid-cols-[200px_minmax(0,1fr)] md:gap-8">
+              <div class="flex flex-col gap-1.5">
+                <code class="w-fit rounded-md bg-surface-2 px-2 py-0.5 font-mono text-[13px] text-ink">{{ k.key }}</code>
+              </div>
+              <div class="flex flex-col gap-3">
+                <h3 class="text-base font-semibold text-ink">{{ k.title }}</h3>
+                @if (k.summary) {
+                  <p class="max-w-prose text-sm leading-relaxed text-ink-soft">{{ k.summary }}</p>
+                }
+                @if (k.mobile || k.desktop) {
+                  <dl class="grid gap-3 sm:grid-cols-2">
+                    @if (k.mobile) {
+                      <div class="rounded-lg bg-surface-2/70 p-3.5">
+                        <dt class="mb-1 flex items-center gap-1.5 text-xs font-medium text-ink">
+                          <i class="pi pi-mobile text-[11px] text-accent" aria-hidden="true"></i>Mobile
+                        </dt>
+                        <dd class="text-sm leading-relaxed text-ink-soft">{{ k.mobile }}</dd>
+                      </div>
+                    }
+                    @if (k.desktop) {
+                      <div class="rounded-lg bg-surface-2/70 p-3.5">
+                        <dt class="mb-1 flex items-center gap-1.5 text-xs font-medium text-ink">
+                          <i class="pi pi-desktop text-[11px] text-ink-faint" aria-hidden="true"></i>Desktop
+                        </dt>
+                        <dd class="text-sm leading-relaxed text-ink-soft">{{ k.desktop }}</dd>
+                      </div>
+                    }
+                  </dl>
+                }
+              </div>
+            </li>
+          }
+        </ol>
+      </section>
+
+      <!-- Source -->
+      <section id="source" data-toc-section class="flex flex-col gap-5">
+        <div class="flex flex-col gap-2">
+          <h2 class="font-display text-2xl font-semibold tracking-tight text-ink">Source</h2>
+          <p class="max-w-2xl text-sm leading-relaxed text-ink-soft">
+            Pass it to the component with <code class="rounded bg-surface-2 px-1 font-mono text-[12px] text-ink">[pt]</code>, or
+            register it globally in <code class="rounded bg-surface-2 px-1 font-mono text-[12px] text-ink">providePrimeNG</code>.
+          </p>
+        </div>
+        <app-code-viewer [file]="d.ptFile" />
+      </section>
+
+      <!-- Close: resolves to the next step instead of trailing off -->
+      <a
+        [routerLink]="'/' + next().slug"
+        class="group flex items-center justify-between gap-6 rounded-2xl border border-line p-6 transition-colors hover:border-ink sm:p-8"
+      >
+        <span class="flex flex-col gap-1">
+          <span class="text-xs text-ink-faint">Next component</span>
+          <span class="font-display text-2xl font-semibold tracking-tight text-ink">{{ next().title }}</span>
+          <span class="text-sm text-ink-soft">{{ next().tagline }}</span>
+        </span>
+        <i class="pi pi-arrow-right text-ink-faint transition-transform group-hover:translate-x-1 group-hover:text-ink" aria-hidden="true"></i>
+      </a>
+    </div>
+  </div>
+</div>
+
+<app-details-dialog [(visible)]="platformDialog" />

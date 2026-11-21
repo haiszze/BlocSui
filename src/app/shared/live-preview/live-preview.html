@@ -1,0 +1,59 @@
+<div class="overflow-hidden rounded-2xl border border-line bg-surface">
+  <div class="flex flex-wrap items-center justify-between gap-3 border-b border-line px-4 py-3">
+    <p class="text-sm text-ink-soft">
+      {{ mode() === 'mobile' ? 'Simulating a phone. Open the BlocSui field.' : 'Open both fields and compare.' }}
+    </p>
+    <div class="flex rounded-lg border border-line bg-surface-2 p-0.5 text-xs font-medium" role="radiogroup" aria-label="Preview platform">
+      @for (m of ['desktop', 'mobile']; track m) {
+        <button
+          type="button"
+          role="radio"
+          [attr.aria-checked]="mode() === m"
+          (click)="setMode($any(m))"
+          class="flex items-center gap-1.5 rounded-md px-3 py-1.5 capitalize transition-colors"
+          [class]="mode() === m ? 'bg-surface text-ink shadow-sm' : 'text-ink-faint hover:text-ink'"
+        >
+          <i class="pi text-[11px]" [class.pi-desktop]="m === 'desktop'" [class.pi-mobile]="m === 'mobile'" aria-hidden="true"></i>
+          {{ m }}
+        </button>
+      }
+    </div>
+  </div>
+
+  @for (k of renderKeys(); track k) {
+    <div class="grid md:grid-cols-2">
+      <section class="flex flex-col gap-3 p-5 sm:p-6" aria-label="PrimeNG default">
+        <header class="flex items-baseline justify-between">
+          <h3 class="text-sm font-semibold text-ink">PrimeNG default</h3>
+          <span class="text-xs text-ink-faint">{{ summary(defaultValue) }}</span>
+        </header>
+        <div class="max-w-xs">
+          @if (kind() === 'select') {
+            <p-select [options]="options" [(ngModel)]="defaultValue" optionLabel="label" optionValue="value" placeholder="Choose a document" class="w-full" />
+          } @else {
+            <p-multiselect [options]="options" [(ngModel)]="defaultValue" optionLabel="label" optionValue="value" placeholder="Choose documents" display="chip" class="w-full" />
+          }
+        </div>
+        <p class="text-xs leading-relaxed text-ink-faint">Long labels are clipped and the overlay stays a dropdown on every screen.</p>
+      </section>
+
+      <section class="flex flex-col gap-3 border-t border-line bg-accent-soft/40 p-5 sm:p-6 md:border-l md:border-t-0" aria-label="With BlocSui">
+        <header class="flex items-baseline justify-between">
+          <h3 class="flex items-center gap-2 text-sm font-semibold text-ink">
+            <span class="size-1.5 rounded-full bg-accent" aria-hidden="true"></span>
+            With BlocSui
+          </h3>
+          <span class="text-xs text-ink-faint">{{ summary(blocValue) }}</span>
+        </header>
+        <div class="relative max-w-xs">
+          @if (kind() === 'select') {
+            <p-select [options]="options" [(ngModel)]="blocValue" optionLabel="label" optionValue="value" placeholder="Choose a document" class="w-full" [pt]="selectPt" />
+          } @else {
+            <p-multiselect [options]="options" [(ngModel)]="blocValue" optionLabel="label" optionValue="value" placeholder="Choose documents" display="chip" class="w-full" [pt]="multiSelectPt" />
+          }
+        </div>
+        <p class="text-xs leading-relaxed text-ink-faint">Labels wrap in full. In mobile mode the overlay moves to the body as a sheet.</p>
+      </section>
+    </div>
+  }
+</div>

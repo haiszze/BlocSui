@@ -22,7 +22,8 @@ export const MultiSelectPt: MultiSelectPassThrough = {
       const cancel = document.createElement('div');
       cancel.className =
         'select-cancel-option sticky bottom-0 bg-white text-gray-500 border-t border-gray-200 ' +
-        'text-start p-3 font-medium cursor-pointer z-[99] hover:bg-gray-100 mt-auto';
+        'text-start p-3 font-medium cursor-pointer z-[99] hover:bg-gray-100 mt-auto ' +
+        'dark:bg-zinc-900 dark:text-zinc-400 dark:border-zinc-700 dark:hover:bg-zinc-800';
       cancel.textContent = 'Cancel';
 
       cancel.addEventListener('click', () => {
@@ -66,7 +67,7 @@ export const MultiSelectPt: MultiSelectPassThrough = {
             'left-1/2!',
             '-translate-x-1/2!',
             'max-h-[80vh]!',
-						'max-sm:w-full!',
+            'max-sm:w-full!',
             'w-[60vw]!'
           );
         } else {

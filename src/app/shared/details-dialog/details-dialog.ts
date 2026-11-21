@@ -1,23 +1,13 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, model } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
-import { ButtonModule } from 'primeng/button';
-import { CodeViewer } from "../code-viewer/code-viewer";
+import { CodeViewer } from '../code-viewer/code-viewer';
 
+/** Explains PlatformUtil, the branch condition every pass-through relies on. */
 @Component({
   selector: 'app-details-dialog',
-  standalone: true,
-  imports: [DialogModule, ButtonModule, CodeViewer],
+  imports: [DialogModule, CodeViewer],
   templateUrl: './details-dialog.html',
 })
 export class DetailsDialog {
-  visible = input<boolean>(false);
-  visibleChange = output<boolean>();
-
-  onVisibleChange(value: boolean): void {
-    this.visibleChange.emit(value);
-  }
-
-  close(): void {
-    this.visibleChange.emit(false);
-  }
+  visible = model(false);
 }

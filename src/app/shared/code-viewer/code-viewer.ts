@@ -1,64 +1,57 @@
+import { DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { CommonModule, DOCUMENT } from '@angular/common';
-import  { ButtonModule } from 'primeng/button';
-import { AfterViewInit, Component, inject, input, signal, OnInit } from '@angular/core';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import * as Prism from 'prismjs';
-
 import 'prismjs/components/prism-typescript';
 
+const COLLAPSED_LINES = 22;
 
+/** Read-only source viewer for files in public/prime-pt. */
 @Component({
   selector: 'app-code-viewer',
-  standalone: true,
-  imports: [CommonModule,ButtonModule],
   templateUrl: './code-viewer.html',
-  styleUrl: './code-viewer.css',
 })
-export class CodeViewer implements OnInit, AfterViewInit {
-  componentName = input<string>('');
-  code = signal('');
+export class CodeViewer {
+  /** File name under public/prime-pt, e.g. "select.pt.ts". */
+  file = input.required<string>();
 
   private readonly http = inject(HttpClient);
   private readonly document = inject(DOCUMENT);
 
-  ngOnInit(): void {
-    const name = this.componentName().trim();
-    if (name) {
-      this.loadCode(name);
-    }
-  }
+  protected readonly code = signal('');
+  protected readonly failed = signal(false);
+  protected readonly copied = signal(false);
+  protected readonly expanded = signal(false);
 
-  ngAfterViewInit(): void {
-    if (this.code()) {
-      Prism.highlightAll();
-    }
-  }
+  protected readonly url = computed(() => new URL(`prime-pt/${this.file()}`, this.document.baseURI).toString());
+  protected readonly lines = computed(() => (this.code() ? this.code().replace(/\n$/, '').split('\n') : []));
+  protected readonly collapsible = computed(() => this.lines().length > COLLAPSED_LINES + 4);
+  protected readonly highlighted = computed(() => {
+    const visible = this.collapsible() && !this.expanded() ? this.lines().slice(0, COLLAPSED_LINES) : this.lines();
+    return Prism.highlight(visible.join('\n'), Prism.languages['typescript'], 'typescript');
+  });
+  protected readonly lineNumbers = computed(() => {
+    const count = this.collapsible() && !this.expanded() ? COLLAPSED_LINES : this.lines().length;
+    return Array.from({ length: count }, (_, i) => i + 1).join('\n');
+  });
 
-  copied = signal(false);
-
-  copyCode() {
-    navigator.clipboard.writeText(this.code()).then(() => {
-      this.copied.set(true);
-
-      setTimeout(() => {
-        this.copied.set(false);
-      }, 1500);
+  constructor() {
+    effect((onCleanup) => {
+      this.code.set('');
+      this.failed.set(false);
+      this.expanded.set(false);
+      const sub = this.http.get(this.url(), { responseType: 'text' }).subscribe({
+        next: (text) => this.code.set(text),
+        error: () => this.failed.set(true),
+      });
+      onCleanup(() => sub.unsubscribe());
     });
   }
 
-  private loadCode(componentName: string): void {
-    const assetPath =
-      componentName === 'platform'
-        ? 'prime-pt/platform.util.ts'
-        : `prime-pt/${componentName}.pt.ts`;
-
-    const url = new URL(assetPath, this.document.baseURI).toString();
-
-    this.http.get(url, { responseType: 'text' }).subscribe({
-      next: (fileContent) => {
-        this.code.set(fileContent);
-        requestAnimationFrame(() => Prism.highlightAll());
-      },
+  protected copy(): void {
+    navigator.clipboard?.writeText(this.code()).then(() => {
+      this.copied.set(true);
+      setTimeout(() => this.copied.set(false), 1600);
     });
   }
 }

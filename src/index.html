@@ -4,11 +4,23 @@
   <meta charset="utf-8">
   <title>BlocSui</title>
   <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="BlocSui: PrimeNG pass-through recipes that turn desktop dropdowns into mobile bottom sheets.">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Geist+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <script>
+    // Apply the saved or system theme before first paint to avoid a flash.
+    (function () {
+      var dark = false;
+      try {
+        var saved = localStorage.getItem('blocsui-theme');
+        dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+      } catch (e) {}
+      if (dark) document.documentElement.classList.add('primeng-mobile-adapter-dark');
+    })();
+  </script>
 </head>
 <body>
   <app-root></app-root>

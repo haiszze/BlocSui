@@ -1,21 +1,23 @@
-<p-dialog [visible]="visible()" (visibleChange)="onVisibleChange($event)" draggable="false" resizable="false" [header]="'Platform Utility'" resizable="false" [modal]="true" (onHide)="close()"
-    [style]="{ width: '45vw' }">
-    <ng-template pTemplate="content">
-        <div class="flex flex-col gap-4">
-            <div class="flex flex-col gap-2">
-                <h3 class="font-semibold text-gray-800">Description</h3>
-                <p class="text-gray-600 text-sm leading-relaxed">
-                    PlatformUtil is a utility class that provides responsive design helpers for detecting device types and viewport sizes.
-                    It uses Tailwind breakpoints (sm, md, lg, xl, 2xl) to determine screen sizes, plus a mobile device detection method.
-                    Use these methods to conditionally apply layouts and behaviors based on the user's device and screen size.
-                </p>
-            </div>
-
-            <!-- Code -->
-            <div class="flex flex-col gap-2">
-                <h3 class="font-semibold text-gray-800">Source Code</h3>
-                <app-code-viewer [componentName]="'platform'"></app-code-viewer>
-            </div>
-        </div>
-    </ng-template>
+<p-dialog
+  [(visible)]="visible"
+  header="PlatformUtil"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [dismissableMask]="true"
+  [style]="{ width: '48rem' }"
+  [breakpoints]="{ '768px': '96vw' }"
+>
+  <div class="flex flex-col gap-5">
+    <p class="max-w-prose text-sm leading-relaxed text-ink-soft">
+      A small static helper for responsive decisions. The width checks follow Tailwind breakpoints (sm, md, lg, xl,
+      2xl). <code class="rounded bg-surface-2 px-1 py-0.5 font-mono text-[12px] text-ink">mobile()</code> detects
+      touch devices from the user agent and is the branch every pass-through uses.
+      <code class="rounded bg-surface-2 px-1 py-0.5 font-mono text-[12px] text-ink">simulateMobile()</code> forces
+      either branch, which is how the live preview on this site works.
+    </p>
+    @if (visible()) {
+      <app-code-viewer file="platform.util.ts" />
+    }
+  </div>
 </p-dialog>

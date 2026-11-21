@@ -1,22 +1,79 @@
-<div class="flex flex-col gap-4 sm:gap-6 min-h-dvh px-4 mx-auto max-w-7xl">
-    <!-- Hero Section -->
-    <div class="flex flex-col gap-4 sm:gap-6">
-        <!-- Header Content -->
-        <div class="flex flex-col gap-3 sm:gap-4">
-            <h1 class="text-2xl sm:text-3xl md:text-6xl font-bold text-gray-600 tracking-tight">BLOCSUI</h1>
-            <p class="text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed max-w-4xl font-light">
-                Blocks of UI customized components using UI components library for responsiveness.
-            </p>
-        </div>
-
-        <!-- Components Grid -->
-        <div class="flex flex-col gap-4 md:flex-wrap md:flex-row w-full">
-            @for (item of componentTitles; track $index) {
-                <div class="flex-1 min-h-[20vdh] min-w-[calc(50%-0.75rem)] sm:min-w-[calc(50%-0.75rem)] transform transition-all duration-300 ease-out hover:scale-105 hover:-translate-y-1">
-                    <app-stats-card (emitVisible)="true" [title]="item.title" [subtitle]="item.subtitle" [description]="item.description" [componentType]="item.componentType" [path]="item.path" [icon]="item.icon" [uiLibIcon]="item.uiLibIcon" [uiLibIconName]="item.uiLibIconName"
-                    />
-                </div>
-            }
-        </div>
+<!-- Hero: split anchor. Copy leads, the demo is the proof. -->
+<section class="mx-auto grid max-w-6xl items-center gap-12 px-4 pb-20 pt-12 sm:px-6 sm:pt-20 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-16">
+  <div class="rise flex flex-col gap-6">
+    <h1 class="font-display text-[2.6rem] font-semibold leading-[1.02] tracking-[-0.035em] text-ink sm:text-6xl">
+      Components that know which screen they're on.
+    </h1>
+    <p class="max-w-md text-base leading-relaxed text-ink-soft sm:text-lg">
+      BlocSui is a set of PrimeNG pass-through recipes. Your Select stays a dropdown on desktop and becomes a proper
+      bottom sheet on a phone, without forking the component.
+    </p>
+    <div class="flex flex-wrap items-center gap-3">
+      <a
+        routerLink="/select"
+        class="inline-flex h-11 items-center gap-2 rounded-lg bg-ink px-5 text-sm font-medium text-canvas transition-transform hover:-translate-y-px"
+      >
+        Explore the components
+        <i class="pi pi-arrow-right text-[11px]" aria-hidden="true"></i>
+      </a>
+      <a routerLink="/select" fragment="source" class="inline-flex h-11 items-center px-3 text-sm font-medium text-ink-soft transition-colors hover:text-ink">
+        View source
+      </a>
     </div>
-</div>
+  </div>
+
+  <div class="rise" style="--rise-delay: 120ms">
+    <app-viewport-morph />
+  </div>
+</section>
+
+<!-- Components: an editorial index, not a card grid -->
+<section class="border-t border-line" aria-labelledby="components-heading">
+  <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+    <h2 id="components-heading" class="mb-8 font-display text-2xl font-semibold tracking-tight text-ink">Components</h2>
+    <ul class="divide-y divide-line border-y border-line">
+      @for (doc of docs; track doc.slug) {
+        <li>
+          <a
+            [routerLink]="'/' + doc.slug"
+            class="group grid items-center gap-3 py-7 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)_auto] sm:gap-10"
+          >
+            <span class="font-display text-3xl font-semibold tracking-tight text-ink transition-transform group-hover:translate-x-1 sm:text-4xl">{{ doc.title }}</span>
+            <span class="flex flex-col gap-3">
+              <span class="text-sm leading-relaxed text-ink-soft">{{ doc.description }}</span>
+              <span class="flex flex-wrap gap-1.5">
+                @for (tag of doc.tags; track tag) {
+                  <span class="rounded-full border border-line px-2.5 py-0.5 text-[11px] text-ink-faint">{{ tag }}</span>
+                }
+              </span>
+            </span>
+            <span class="hidden size-10 place-items-center rounded-full border border-line text-ink-faint transition-colors group-hover:border-ink group-hover:bg-ink group-hover:text-canvas sm:grid" aria-hidden="true">
+              <i class="pi pi-arrow-right text-xs"></i>
+            </span>
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<!-- How it works: heading trails, three quiet columns -->
+<section class="bg-surface-2/60" aria-labelledby="how-heading">
+  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-16">
+    <div class="flex flex-col gap-3">
+      <h2 id="how-heading" class="font-display text-2xl font-semibold tracking-tight text-ink">How it works</h2>
+      <p class="max-w-sm text-sm leading-relaxed text-ink-soft">
+        No wrapper components and no forks. Each recipe is a plain pass-through object you hand to PrimeNG.
+      </p>
+    </div>
+    <ol class="grid gap-8 sm:grid-cols-3 sm:gap-6">
+      @for (step of steps; track step.title) {
+        <li class="flex flex-col gap-3 border-t border-ink pt-4">
+          <h3 class="text-base font-semibold text-ink">{{ step.title }}</h3>
+          <code class="w-fit rounded-md bg-surface px-2 py-1 font-mono text-[12px] text-accent">{{ step.code }}</code>
+          <p class="text-sm leading-relaxed text-ink-soft">{{ step.body }}</p>
+        </li>
+      }
+    </ol>
+  </div>
+</section>

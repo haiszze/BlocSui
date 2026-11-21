@@ -1,23 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TestBed } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { DetailsDialog } from './details-dialog';
 
 describe('DetailsDialog', () => {
-  let component: DetailsDialog;
-  let fixture: ComponentFixture<DetailsDialog>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [DetailsDialog]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(DetailsDialog);
-    component = fixture.componentInstance;
+  it('starts closed', async () => {
+    await TestBed.configureTestingModule({ imports: [DetailsDialog], providers: [provideNoopAnimations()] }).compileComponents();
+    const fixture = TestBed.createComponent(DetailsDialog);
     fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(fixture.componentInstance.visible()).toBeFalse();
   });
 });

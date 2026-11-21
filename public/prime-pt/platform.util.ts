@@ -1,4 +1,3 @@
-
 export const Platform = {
   sm: 640,
   md: 768,
@@ -7,38 +6,38 @@ export const Platform = {
   '2xl': 1536,
 };
 
-export const DeviceInfo = {
-    
-}
+export class PlatformUtil {
+  /** When set, overrides user-agent detection. Useful for previews and tests. */
+  private static forcedMobile: boolean | null = null;
 
-export class PlatformUtil{
-    static sm(): boolean{
-        const width = window.innerWidth;
-        return width < Platform.sm;
+  static simulateMobile(value: boolean | null): void {
+    PlatformUtil.forcedMobile = value;
+  }
+
+  static sm(): boolean {
+    return window.innerWidth < Platform.sm;
+  }
+
+  static md(): boolean {
+    return window.innerWidth >= Platform.md;
+  }
+
+  static lg(): boolean {
+    return window.innerWidth >= Platform.lg;
+  }
+
+  static xl(): boolean {
+    return window.innerWidth >= Platform.xl;
+  }
+
+  static '2xl'(): boolean {
+    return window.innerWidth >= Platform['2xl'];
+  }
+
+  static mobile(): boolean {
+    if (PlatformUtil.forcedMobile !== null) {
+      return PlatformUtil.forcedMobile;
     }
-
-    static md(): boolean{
-        const width = window.innerWidth;
-        return width >= Platform.md;
-    }
-
-    static lg(): boolean{
-        const width = window.innerWidth;
-        return width >= Platform.lg;
-    }
-
-    static xl(): boolean{
-        const width = window.innerWidth;
-        return width >= Platform.xl;
-    }
-
-    static "2xl"(): boolean{
-        const width = window.innerWidth;
-        return width >= Platform["2xl"];
-    }
-
-    static mobile(): boolean{
-        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    }
-
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  }
 }

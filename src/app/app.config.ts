@@ -1,33 +1,40 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {
+  provideRouter,
+  withComponentInputBinding,
+  withInMemoryScrolling,
+  withViewTransitions,
+} from '@angular/router';
 import { providePrimeNG } from 'primeng/config';
-import { HttpClient, HttpClientModule, provideHttpClient } from '@angular/common/http';
-import { Noir } from './themes/noir';
-
-import { routes } from './app.routes';
-
 
 import { CalendarPt } from '../../public/prime-pt/calendar.pt';
+import { routes } from './app.routes';
+import { Noir } from './themes/noir';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
+    provideRouter(
+      routes,
+      withComponentInputBinding(),
+      withInMemoryScrolling({ scrollPositionRestoration: 'top', anchorScrolling: 'enabled' }),
+      withViewTransitions({ skipInitialTransition: true }),
+    ),
     provideAnimationsAsync(),
-    HttpClientModule,
     provideHttpClient(),
     providePrimeNG({
       pt: {
-        datepicker: CalendarPt
+        datepicker: CalendarPt,
       },
       theme: {
         preset: Noir,
         options: {
-          darkModeSelector: '.primeng-mobile-adapter-dark'
-        }
-      }
-    })
-  ]
+          darkModeSelector: '.primeng-mobile-adapter-dark',
+        },
+      },
+    }),
+  ],
 };
